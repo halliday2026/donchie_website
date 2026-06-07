@@ -1,0 +1,366 @@
+:root {
+  --color-navy-deep: #102747;
+  --color-navy: #1a3a6b;
+  --color-navy-light: #2a5089;
+  --color-silver: #c9d4e3;
+  --color-white: #ffffff;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --gradient-navy: linear-gradient(160deg, var(--color-navy-deep) 0%, var(--color-navy) 55%, var(--color-navy-light) 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-white);
+  background: var(--color-navy);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+section {
+  position: relative;
+  padding: 5rem 1.5rem;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  margin: 0.85rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--color-silver), transparent);
+}
+
+/* ---------------------------------- */
+/* Water droplet decorations           */
+/* ---------------------------------- */
+
+.droplet {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.15) 28%, transparent 45%),
+    radial-gradient(circle at 65% 70%, rgba(26, 58, 107, 0.55) 0%, rgba(201, 212, 227, 0.35) 60%, rgba(201, 212, 227, 0.12) 100%);
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.25), 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.droplet--sm {
+  width: 28px;
+  height: 28px;
+}
+
+.droplet--md {
+  width: 52px;
+  height: 52px;
+}
+
+.droplet--lg {
+  width: 84px;
+  height: 84px;
+}
+
+/* ---------------------------------- */
+/* Hero                                */
+/* ---------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem;
+  background-color: var(--color-navy-deep);
+  background-image:
+    linear-gradient(to top, rgba(16, 39, 71, 0.96) 0%, rgba(26, 58, 107, 0.72) 45%, rgba(26, 58, 107, 0.45) 100%),
+    url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero__content {
+  max-width: 780px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero__title {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.45);
+  margin-bottom: 1.25rem;
+}
+
+.hero__subtitle {
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 300;
+  color: var(--color-silver);
+  margin-bottom: 2.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.btn-call {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  color: var(--color-navy-deep);
+  background: linear-gradient(135deg, var(--color-white), var(--color-silver));
+  padding: 1rem 2.25rem;
+  border-radius: 50px;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-call:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------------------------------- */
+/* About                               */
+/* ---------------------------------- */
+
+.about {
+  background: var(--gradient-navy);
+  text-align: center;
+}
+
+.about .container {
+  max-width: 760px;
+}
+
+.about p {
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  color: var(--color-silver);
+}
+
+/* ---------------------------------- */
+/* Services                            */
+/* ---------------------------------- */
+
+.services {
+  background: var(--color-navy-deep);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.service-card {
+  position: relative;
+  background: linear-gradient(160deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
+  border: 1px solid rgba(201, 212, 227, 0.45);
+  border-radius: 18px;
+  padding: 2.5rem 1.75rem;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.3);
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.service-card__icon {
+  font-size: 2.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.service-card__title {
+  font-size: 1.3rem;
+  margin-bottom: 0.65rem;
+}
+
+.service-card__desc {
+  color: var(--color-silver);
+  font-size: 0.98rem;
+}
+
+/* ---------------------------------- */
+/* Testimonials                        */
+/* ---------------------------------- */
+
+.testimonials {
+  background: var(--gradient-navy);
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.testimonial-card {
+  position: relative;
+  background: rgba(16, 39, 71, 0.55);
+  border: 1px solid rgba(201, 212, 227, 0.4);
+  border-radius: 18px;
+  padding: 2.25rem 1.75rem;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.25);
+}
+
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.testimonial-card__quote {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--color-white);
+  margin-bottom: 1.25rem;
+}
+
+.testimonial-card__name {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.testimonial-card__relation {
+  font-size: 0.88rem;
+  color: var(--color-silver);
+}
+
+/* ---------------------------------- */
+/* Map                                 */
+/* ---------------------------------- */
+
+.map-section {
+  background: var(--gradient-navy);
+  text-align: center;
+}
+
+#map {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px rgba(201, 212, 227, 0.4), 0 0 40px rgba(26, 58, 107, 0.65);
+}
+
+/* ---------------------------------- */
+/* Contact / CTA                       */
+/* ---------------------------------- */
+
+.contact {
+  background: var(--color-navy-deep);
+  text-align: center;
+}
+
+.contact p {
+  color: var(--color-silver);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact__phone {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  text-decoration: none;
+  color: var(--color-white);
+  border-bottom: 2px solid var(--color-silver);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact__phone:hover {
+  color: var(--color-silver);
+  border-color: var(--color-white);
+}
+
+.contact__note {
+  font-size: 0.9rem;
+  color: rgba(201, 212, 227, 0.75);
+  font-style: italic;
+}
+
+/* ---------------------------------- */
+/* Footer                              */
+/* ---------------------------------- */
+
+footer {
+  background: var(--color-navy-deep);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.9rem;
+  color: rgba(201, 212, 227, 0.7);
+  border-top: 1px solid rgba(201, 212, 227, 0.2);
+}
+
+/* ---------------------------------- */
+/* Responsive                          */
+/* ---------------------------------- */
+
+@media (max-width: 800px) {
+  .services-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  section {
+    padding: 3.5rem 1.25rem;
+  }
+
+  #map {
+    height: 320px;
+  }
+}

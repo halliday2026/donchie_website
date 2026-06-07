@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const phoneDisplay = '626-771-7471';
+const phoneHref = 'tel:6267717471';
+
+const testimonials = [
+  {
+    quote: 'Placeholder testimonial — share what made this client and their family feel cared for.',
+    name: 'Client Name',
+    relation: 'Family Member',
+  },
+  {
+    quote: 'Placeholder testimonial — share what made this client and their family feel cared for.',
+    name: 'Client Name',
+    relation: 'Family Member',
+  },
+  {
+    quote: 'Placeholder testimonial — share what made this client and their family feel cared for.',
+    name: 'Client Name',
+    relation: 'Family Member',
+  },
+];
+
+const services = [
+  {
+    icon: '🛁',
+    title: 'Bathing Assistance',
+    desc: 'Gentle, respectful help with bathing and hygiene that preserves dignity and comfort.',
+  },
+  {
+    icon: '🛏️',
+    title: 'Bedbound Bathing Assistance',
+    desc: 'Specialized in-bed bathing care for clients with limited mobility, delivered with patience and skill.',
+  },
+  {
+    icon: '🤝',
+    title: 'Personal Care Services',
+    desc: 'Day-to-day support with grooming, dressing, and personal needs so clients can stay comfortable at home.',
+  },
+];
+---
+
+<Layout title="Donchie | Licensed Home Health Aide in Upland, CA">
+  <!-- Hero -->
+  <section class="hero">
+    <span class="droplet droplet--lg" style="top: 12%; left: 8%;"></span>
+    <span class="droplet droplet--sm" style="top: 70%; left: 18%;"></span>
+    <span class="droplet droplet--md" style="top: 22%; right: 10%;"></span>
+    <div class="hero__content">
+      <h1 class="hero__title">Compassionate Care, In the Comfort of Home</h1>
+      <p class="hero__subtitle">Licensed Home Health Aide serving the Inland Empire &amp; surrounding areas</p>
+      <a class="btn-call" href={phoneHref}>Call or Text: {phoneDisplay}</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <span class="droplet droplet--md" style="bottom: 10%; right: 6%;"></span>
+    <div class="container">
+      <h2 class="section-title">About Donchie</h2>
+      <p>
+        Dona Archie is a licensed Home Health Aide dedicated to providing compassionate, dignified
+        personal care for seniors in the comfort of their own home. With a personal commitment to
+        every client's wellbeing, Donchie brings professional care with a family-like touch.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services" id="services">
+    <span class="droplet droplet--sm" style="top: 8%; right: 14%;"></span>
+    <div class="container">
+      <h2 class="section-title">Services</h2>
+      <div class="services-grid">
+        {services.map((service) => (
+          <div class="service-card">
+            <span class="droplet droplet--sm" style="top: 14px; right: 14px;"></span>
+            <div class="service-card__icon" aria-hidden="true">{service.icon}</div>
+            <h3 class="service-card__title">{service.title}</h3>
+            <p class="service-card__desc">{service.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <span class="droplet droplet--md" style="top: 10%; left: 7%;"></span>
+    <div class="container">
+      <h2 class="section-title">What Families Are Saying</h2>
+      <div class="testimonials-grid">
+        {testimonials.map((t) => (
+          <div class="testimonial-card">
+            <span class="droplet droplet--sm" style="top: 14px; right: 14px;"></span>
+            <p class="testimonial-card__quote">&ldquo;{t.quote}&rdquo;</p>
+            <p class="testimonial-card__name">{t.name}</p>
+            <p class="testimonial-card__relation">{t.relation}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Map -->
+  <section class="map-section" id="service-area">
+    <div class="container">
+      <h2 class="section-title">Areas We Serve</h2>
+      <img
+        id="map"
+        src={`${import.meta.env.BASE_URL}/service_area_map.jpg`}
+        alt="Map of the service area surrounding Upland, CA, including San Bernardino, Rialto, Riverside, Corona, Chino, and Covina"
+        loading="lazy"
+      />
+    </div>
+  </section>
+
+  <!-- Contact / CTA -->
+  <section class="contact" id="contact">
+    <span class="droplet droplet--lg" style="bottom: 6%; left: 6%;"></span>
+    <span class="droplet droplet--sm" style="top: 14%; right: 12%;"></span>
+    <div class="container">
+      <h2 class="section-title">Ready to Get Started?</h2>
+      <p>Call or text anytime.</p>
+      <a class="contact__phone" href={phoneHref}>{phoneDisplay}</a>
+      <p class="contact__note">License # on file upon request.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Donchie · Licensed Home Health Aide · Upland, CA</p>
+  </footer>
+</Layout>
