@@ -69,10 +69,13 @@ grids to a single column and reduces section padding / map height.
 
 ## GitHub Pages Deployment
 
-`astro.config.mjs` currently has **placeholder values** that must be updated before deploying:
-- `site: 'https://your-username.github.io'` → replace `your-username` with the actual GitHub
-  username/org
-- `base: '/donchie'` → update if the repository name differs
+`astro.config.mjs` is configured for the `halliday2026/donchie_website` GitHub repo:
+`site: 'https://halliday2026.github.io'`, `base: '/donchie_website'`. If the repo is ever
+renamed or transferred, update both to match.
+
+GitHub Pages must also be enabled in the repo settings (Settings → Pages → Build and
+deployment → Source → **GitHub Actions**) — without this the deploy job fails with a 404
+"Failed to create deployment... Ensure GitHub Pages has been enabled" error.
 
 The deploy workflow ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) builds and
 uploads the Pages artifact in one step via `withastro/action@v3` (it wraps
