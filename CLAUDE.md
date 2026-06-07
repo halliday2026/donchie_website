@@ -32,7 +32,9 @@ There is only one page (`index.astro`); all content lives there as a sequence of
 
 1. **Hero** (`.hero`) — full-viewport background image with navy gradient overlay, headline,
    subheadline, and a `tel:` CTA button (`.btn-call`)
-2. **About** (`#about`) — short intro paragraph about Dona Archie / Donchie
+2. **About** (`#about`) — short intro paragraph about Dona Archie / Donchie, plus a
+   `.credential-badge` showing her CDPH Home Health Aide certification (see "Credential
+   badge" below — **do not** add her legal name, signature, or a photo of the certificate)
 3. **Services** (`#services`) — `services` array in the frontmatter renders `.service-card`s
    (icon/emoji + title + one-line description) in a 3-up grid that stacks on mobile
 4. **Testimonials** (`#testimonials`) — `testimonials` array renders `.testimonial-card`s
@@ -48,6 +50,23 @@ There is only one page (`index.astro`); all content lives there as a sequence of
 To add/edit services or testimonials, edit the `services` / `testimonials` arrays at the top
 of [index.astro](src/pages/index.astro) — the markup maps over them, so the grid updates
 automatically.
+
+## Credential Badge
+
+The `.credential-badge` in the About section (`index.astro`) represents Dona Archie's real
+California Department of Public Health Home Health Aide certification, built as styled markup
+(inline SVG seal + text) rather than an embedded photo of the certificate card. This was a
+deliberate privacy/trust tradeoff made with the owner:
+
+- **Shows**: issuing agency ("California Department of Public Health"), credential title
+  ("Certified Home Health Aide"), and the certificate number/validity
+  ("Certificate #00266808 · Active through October 2026") — the cert number is shown
+  *intentionally* as public proof, per the owner's explicit choice
+- **Deliberately omits**: the certificate holder's legal name (it differs from the public
+  business persona "Dona Archie" and publishing both could cause confusion/privacy issues)
+  and the handwritten signature visible on the physical card
+- If the certification is renewed/changes, update the `Certificate #...` line and the seal
+  markup stays the same — don't replace this with a scanned/photographed image of the card
 
 ## Design System (in `global.css`)
 
