@@ -74,9 +74,11 @@ grids to a single column and reduces section padding / map height.
   username/org
 - `base: '/donchie'` → update if the repository name differs
 
-The deploy workflow ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) builds with
-`withastro/action@v3` and publishes via `actions/upload-pages-artifact` /
-`actions/deploy-pages` on every push to `main`.
+The deploy workflow ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) builds and
+uploads the Pages artifact in one step via `withastro/action@v3` (it wraps
+`actions/upload-pages-artifact` internally — do **not** add a separate upload-artifact step,
+it will collide with the one the action already creates and fail with a 409 "artifact already
+exists" error), then publishes via `actions/deploy-pages` on every push to `main`.
 
 ## Commands
 
