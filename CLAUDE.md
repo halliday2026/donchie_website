@@ -15,8 +15,9 @@ GitHub Pages.
 
 ```
 .github/workflows/deploy.yml   GitHub Actions: build + deploy to GitHub Pages on push to main
-astro.config.mjs               output: 'static', site/base configured for GitHub Pages
+astro.config.mjs               output: 'static', site set for the donchie.com custom domain
 public/
+  CNAME                        Custom domain file ("donchie.com") — copied verbatim to dist root
   favicon.svg                  Inline water-drop SVG icon (navy)
   service_area_map.jpg         Static map image used in the "Areas We Serve" section
 src/
@@ -69,9 +70,17 @@ grids to a single column and reduces section padding / map height.
 
 ## GitHub Pages Deployment
 
-`astro.config.mjs` is configured for the `halliday2026/donchie_website` GitHub repo:
-`site: 'https://halliday2026.github.io'`, `base: '/donchie_website'`. If the repo is ever
-renamed or transferred, update both to match.
+The site is served from a **custom domain**, `donchie.com`, via `public/CNAME` (Astro copies
+everything in `public/` verbatim to the dist root, so the file ends up exactly where GitHub
+Pages expects it). Because of this:
+- `astro.config.mjs` has `site: 'https://donchie.com'` and **no `base`** (defaults to `/`,
+  i.e. the site lives at the domain root, not under `/donchie_website/`)
+- Asset references use `import.meta.env.BASE_URL.replace(/\/$/, '')` before appending a
+  filename (see `Layout.astro`'s favicon link and `index.astro`'s map image `src`) so the
+  paths resolve correctly whether `BASE_URL` is `/` (custom domain) or a subpath — don't
+  revert these to plain string concatenation, it breaks one case or the other.
+- The custom domain (`donchie.com` → `www.donchie.com` is **not** used; no `www.` prefix)
+  must also be configured in the repo's Pages settings and DNS must point at GitHub Pages.
 
 GitHub Pages must also be enabled in the repo settings (Settings → Pages → Build and
 deployment → Source → **GitHub Actions**) — without this the deploy job fails with a 404

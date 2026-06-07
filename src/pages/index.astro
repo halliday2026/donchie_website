@@ -109,7 +109,7 @@ const services = [
       <h2 class="section-title">Areas We Serve</h2>
       <img
         id="map"
-        src={`${import.meta.env.BASE_URL}/service_area_map.jpg`}
+        src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/service_area_map.jpg`}
         alt="Map of the service area surrounding Upland, CA, including San Bernardino, Rialto, Riverside, Corona, Chino, and Covina"
         loading="lazy"
       />
