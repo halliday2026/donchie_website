@@ -42,7 +42,8 @@ There is only one page (`index.astro`); all content lives there as a sequence of
    `public/service_area_map.jpg` (an interactive Leaflet map was tried first and replaced
    with this static image)
 6. **Contact / CTA** (`#contact`) — large tappable `tel:` phone link and a licensing note
-7. **Footer** — copyright line
+7. **Footer** — copyright line with a dynamically computed year (`new Date().getFullYear()`
+   in `index.astro`'s frontmatter, rendered as `currentYear` — never hardcode the year here)
 
 To add/edit services or testimonials, edit the `services` / `testimonials` arrays at the top
 of [index.astro](src/pages/index.astro) — the markup maps over them, so the grid updates
@@ -57,13 +58,12 @@ CSS custom properties defined in `:root`:
 - `--font-body`: "Lato" (sans-serif, body text)
 - `--gradient-navy`: the deep-navy → royal-blue gradient used on alternating section backgrounds
 
-**Water droplet decorations** (`.droplet`, sizes `--sm`/`--md`/`--lg`): pure-CSS glass-like
-drops built from layered `radial-gradient`s + `border-radius: 50% 50% 50% 0` + rotation —
-no images. Sprinkled across sections via inline `style` positioning.
-
 Reusable component classes: `.container`, `.section-title`, `.btn-call`, `.service-card`,
 `.testimonial-card`. Card components share the same visual recipe (navy gradient background,
-silver border, inset border accent via `::before`, droplet decoration, rounded corners).
+silver border, inset border accent via `::before`, rounded corners).
+
+Note: an earlier iteration included pure-CSS "water droplet" decorations (`.droplet`); these
+were removed at the owner's request — don't reintroduce them.
 
 Responsive breakpoint: `@media (max-width: 800px)` — collapses the services and testimonials
 grids to a single column and reduces section padding / map height.

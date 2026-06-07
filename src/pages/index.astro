@@ -22,6 +22,8 @@ const testimonials = [
   },
 ];
 
+const currentYear = new Date().getFullYear();
+
 const services = [
   {
     icon: '🛁',
@@ -44,9 +46,6 @@ const services = [
 <Layout title="Donchie | Licensed Home Health Aide in Upland, CA">
   <!-- Hero -->
   <section class="hero">
-    <span class="droplet droplet--lg" style="top: 12%; left: 8%;"></span>
-    <span class="droplet droplet--sm" style="top: 70%; left: 18%;"></span>
-    <span class="droplet droplet--md" style="top: 22%; right: 10%;"></span>
     <div class="hero__content">
       <h1 class="hero__title">Compassionate Care, In the Comfort of Home</h1>
       <p class="hero__subtitle">Licensed Home Health Aide serving the Inland Empire &amp; surrounding areas</p>
@@ -56,7 +55,6 @@ const services = [
 
   <!-- About -->
   <section class="about" id="about">
-    <span class="droplet droplet--md" style="bottom: 10%; right: 6%;"></span>
     <div class="container">
       <h2 class="section-title">About Donchie</h2>
       <p>
@@ -69,13 +67,11 @@ const services = [
 
   <!-- Services -->
   <section class="services" id="services">
-    <span class="droplet droplet--sm" style="top: 8%; right: 14%;"></span>
     <div class="container">
       <h2 class="section-title">Services</h2>
       <div class="services-grid">
         {services.map((service) => (
           <div class="service-card">
-            <span class="droplet droplet--sm" style="top: 14px; right: 14px;"></span>
             <div class="service-card__icon" aria-hidden="true">{service.icon}</div>
             <h3 class="service-card__title">{service.title}</h3>
             <p class="service-card__desc">{service.desc}</p>
@@ -87,13 +83,11 @@ const services = [
 
   <!-- Testimonials -->
   <section class="testimonials" id="testimonials">
-    <span class="droplet droplet--md" style="top: 10%; left: 7%;"></span>
     <div class="container">
       <h2 class="section-title">What Families Are Saying</h2>
       <div class="testimonials-grid">
         {testimonials.map((t) => (
           <div class="testimonial-card">
-            <span class="droplet droplet--sm" style="top: 14px; right: 14px;"></span>
             <p class="testimonial-card__quote">&ldquo;{t.quote}&rdquo;</p>
             <p class="testimonial-card__name">{t.name}</p>
             <p class="testimonial-card__relation">{t.relation}</p>
@@ -118,8 +112,6 @@ const services = [
 
   <!-- Contact / CTA -->
   <section class="contact" id="contact">
-    <span class="droplet droplet--lg" style="bottom: 6%; left: 6%;"></span>
-    <span class="droplet droplet--sm" style="top: 14%; right: 12%;"></span>
     <div class="container">
       <h2 class="section-title">Ready to Get Started?</h2>
       <p>Call or text anytime.</p>
@@ -129,6 +121,6 @@ const services = [
   </section>
 
   <footer>
-    <p>&copy; 2025 Donchie · Licensed Home Health Aide · Upland, CA</p>
+    <p>&copy; {currentYear} Donchie · Licensed Home Health Aide · Upland, CA</p>
   </footer>
 </Layout>
