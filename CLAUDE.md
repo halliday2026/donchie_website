@@ -38,8 +38,8 @@ There is only one page (`index.astro`); all content lives there as a sequence of
 3. **Services** (`#services`) — `services` array in the frontmatter renders `.service-card`s
    (icon/emoji + title + one-line description) in a 3-up grid that stacks on mobile
 4. **Testimonials** (`#testimonials`) — `testimonials` array renders `.testimonial-card`s
-   (quote + name + relation) in the same 3-up/stacking grid pattern as Services. Currently
-   **placeholder content** — swap in real client quotes when available
+   (quote + name + relation) in the same 3-up/stacking grid pattern as Services. Contains
+   real client quotes supplied by the owner (first names + relation only — no last names)
 5. **Service Area Map** (`#service-area`) — static `<img id="map">` pointing at
    `public/service_area_map.jpg` (an interactive Leaflet map was tried first and replaced
    with this static image)
@@ -119,9 +119,8 @@ exists" error), then publishes via `actions/deploy-pages` on every push to `main
 
 ## Notes
 
-- All copy (hero headline, about paragraph, service descriptions, contact text, footer) was
-  supplied directly by the business owner and is final; **testimonials are placeholders** and
-  need real client quotes.
+- All copy (hero headline, about paragraph, service descriptions, testimonials, contact text,
+  footer) was supplied directly by the business owner and is final.
 - The hero background image is hot-linked from Unsplash; the gradient overlay
   (`linear-gradient` layered with the `background-image`) keeps text readable and also acts as
   a visual fallback if the remote image fails to load.
