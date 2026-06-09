@@ -345,6 +345,14 @@ section {
   box-shadow: 0 0 0 1px rgba(201, 212, 227, 0.4), 0 0 40px rgba(26, 58, 107, 0.65);
 }
 
+.map-section__cities {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--color-silver);
+  text-align: center;
+  line-height: 2;
+}
+
 /* ---------------------------------- */
 /* Contact / CTA                       */
 /* ---------------------------------- */

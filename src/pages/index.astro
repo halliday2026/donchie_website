@@ -45,7 +45,30 @@ const services = [
 ];
 ---
 
-<Layout title="Donchie | Licensed Home Health Aide in Upland, CA">
+<Layout title="Donchie | Home Health Aide (HHA) — Upland, Rancho Cucamonga & Inland Empire, CA">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Donchie",
+      "description": "Licensed Home Health Aide (HHA) providing bathing assistance, bedbound care, and personal care services in Upland, CA and the Inland Empire.",
+      "telephone": "+16267717471",
+      "email": emailAddress,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Upland",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        "Upland, CA","Rancho Cucamonga, CA","Ontario, CA","Fontana, CA",
+        "San Bernardino, CA","Rialto, CA","Chino, CA","Chino Hills, CA",
+        "Pomona, CA","Claremont, CA","Covina, CA","Riverside, CA","Corona, CA"
+      ],
+      "serviceType": ["Home Health Aide","HHA","Personal Care Services","Bathing Assistance"],
+      "url": "https://donchie.com"
+    })} />
+  </Fragment>
   <!-- Hero -->
   <section class="hero">
     <div class="hero__content">
@@ -81,7 +104,7 @@ const services = [
         <div class="credential-badge__text">
           <p class="credential-badge__org">California Department of Public Health</p>
           <p class="credential-badge__title">Certified Home Health Aide</p>
-          <p class="credential-badge__meta">Certificate #00266808 · Active through October 2026</p>
+          <p class="credential-badge__meta">Certificate #00266808</p>
         </div>
       </div>
     </div>
@@ -129,6 +152,10 @@ const services = [
         alt="Map of the service area surrounding Upland, CA, including San Bernardino, Rialto, Riverside, Corona, Chino, and Covina"
         loading="lazy"
       />
+      <p class="map-section__cities">
+        Upland · Rancho Cucamonga · Ontario · Fontana · Rialto · San Bernardino ·
+        Chino · Chino Hills · Pomona · Claremont · Covina · Riverside · Corona
+      </p>
     </div>
   </section>
 

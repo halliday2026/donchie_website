@@ -7,6 +7,8 @@ GitHub Pages.
 ## Tech Stack
 
 - **Astro** (`output: 'static'`) — no UI frameworks, plain `.astro` components
+- `@astrojs/sitemap` integration — auto-generates `sitemap-index.xml` + `sitemap-0.xml` at
+  build time (submit the sitemap URL to Google Search Console after deploy)
 - Vanilla CSS (single global stylesheet, CSS custom properties for the palette)
 - No JS beyond what Astro emits — the site is fully static HTML/CSS
 - Deployed to **GitHub Pages** via GitHub Actions (`withastro/action` + `actions/deploy-pages`)
@@ -19,6 +21,7 @@ astro.config.mjs               output: 'static', site set for the donchie.com cu
 public/
   CNAME                        Custom domain file ("donchie.com") — copied verbatim to dist root
   favicon.svg                  Inline water-drop SVG icon (navy)
+  robots.txt                   Allows all crawlers; points to sitemap-index.xml
   service_area_map.jpg         Static map image used in the "Areas We Serve" section
 src/
   layouts/Layout.astro         Base HTML shell: meta tags, Google Fonts, favicon, global.css import
@@ -110,6 +113,19 @@ uploads the Pages artifact in one step via `withastro/action@v3` (it wraps
 `actions/upload-pages-artifact` internally — do **not** add a separate upload-artifact step,
 it will collide with the one the action already creates and fail with a 409 "artifact already
 exists" error), then publishes via `actions/deploy-pages` on every push to `main`.
+
+## SEO
+
+- **JSON-LD** — `index.astro` injects a `LocalBusiness` schema block via `<Fragment slot="head">`.
+  Target keywords: "HHA", "Home Health Aide", plus the 13 service-area cities. Edit the
+  `areaServed` and `serviceType` arrays in the head slot if the service area or offerings change.
+- **Title / meta description** — set on the `<Layout>` call in `index.astro`; default
+  description lives in `Layout.astro`. Both include "HHA" and key city names.
+- **City list** — `.map-section__cities` paragraph below the map image lists all service cities
+  as crawlable text (the map image itself is not readable by search engines).
+- **Sitemap** — generated at build time by `@astrojs/sitemap`; submit
+  `https://donchie.com/sitemap-index.xml` to Google Search Console and Bing Webmaster Tools.
+- **robots.txt** — `public/robots.txt` allows all crawlers and points to the sitemap.
 
 ## Commands
 
