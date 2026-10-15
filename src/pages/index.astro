@@ -1,8 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const siteUrl = 'https://donchie.com';
 const phoneDisplay = '626-771-7471';
 const phoneHref = 'tel:6267717471';
+const phoneE164 = '+16267717471';
 const emailAddress = 'archibon.lamaria1967@gmail.com';
 const emailHref = `mailto:${emailAddress}`;
 
@@ -43,135 +45,292 @@ const services = [
     desc: 'Day-to-day support with grooming, dressing, and personal needs so clients can stay comfortable at home.',
   },
 ];
+
+const cities = [
+  'Upland', 'Rancho Cucamonga', 'Ontario', 'Fontana', 'Rialto', 'San Bernardino',
+  'Chino', 'Chino Hills', 'Pomona', 'Claremont', 'Covina', 'Riverside', 'Corona',
+];
+
+const certificateNumber = '00266808';
+
+// FAQ answers only restate facts already on the page (services, service area, credential,
+// contact) — they render as visible text AND as FAQPage JSON-LD for answer engines.
+const faqs = [
+  {
+    q: 'What services does Donchie provide?',
+    a: 'Donchie provides in-home Home Health Aide (HHA) services: bathing assistance, bedbound (in-bed) bathing assistance, and personal care services such as grooming, dressing, and help with day-to-day personal needs, so clients can stay comfortable in their own home.',
+  },
+  {
+    q: 'Is Donchie a licensed Home Health Aide?',
+    a: `Yes. Dona and Archie are licensed Home Health Aides. Donchie holds a Certified Home Health Aide certification from the California Department of Public Health (CDPH), Certificate #${certificateNumber}.`,
+  },
+  {
+    q: 'What areas does Donchie serve?',
+    a: `Donchie is based in Upland, CA and serves the Inland Empire and surrounding areas, including ${cities.slice(0, -1).join(', ')}, and ${cities[cities.length - 1]}.`,
+  },
+  {
+    q: 'Can Donchie help a loved one who is bedbound?',
+    a: 'Yes. Donchie offers specialized in-bed bathing care for clients with limited mobility who cannot get out of bed on their own, delivered gently and with dignity.',
+  },
+  {
+    q: 'Does Donchie care for seniors and clients receiving hospice care at home?',
+    a: 'Yes. Donchie provides personal care for seniors in their own homes, and families have relied on Donchie for bathing and personal care while a loved one was receiving hospice care.',
+  },
+  {
+    q: 'How do I schedule home health aide care with Donchie?',
+    a: `Call or text ${phoneDisplay} anytime, or email ${emailAddress}.`,
+  },
+];
+
+const description = `Licensed Home Health Aide (HHA) in Upland, CA. Donchie provides in-home bathing, bedbound bathing & personal care across Rancho Cucamonga, Ontario, Chino & the Inland Empire.`;
+
+const businessId = `${siteUrl}/#business`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['LocalBusiness', 'MedicalBusiness'],
+      '@id': businessId,
+      name: 'Donchie',
+      alternateName: 'Donchie Home Health Aide',
+      slogan: 'Compassionate Care, In the Comfort of Home',
+      description:
+        'Licensed Home Health Aide (HHA) providing in-home bathing assistance, bedbound bathing, and personal care services for seniors in Upland, CA and the Inland Empire.',
+      url: `${siteUrl}/`,
+      telephone: phoneE164,
+      email: emailAddress,
+      image: `${siteUrl}/service_area_map.jpg`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Upland',
+        addressRegion: 'CA',
+        addressCountry: 'US',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 34.0975,
+        longitude: -117.6484,
+      },
+      areaServed: [
+        ...cities.map((city) => ({ '@type': 'City', name: `${city}, CA` })),
+        { '@type': 'AdministrativeArea', name: 'Inland Empire, CA' },
+      ],
+      knowsAbout: [
+        'Home Health Aide',
+        'HHA',
+        'In-home care',
+        'Senior care',
+        'Bathing assistance',
+        'Bedbound bathing',
+        'Personal care',
+        'Hospice support',
+      ],
+      hasCredential: {
+        '@type': 'EducationalOccupationalCredential',
+        name: 'Certified Home Health Aide',
+        credentialCategory: 'certification',
+        identifier: certificateNumber,
+        recognizedBy: {
+          '@type': 'GovernmentOrganization',
+          name: 'California Department of Public Health',
+          url: 'https://www.cdph.ca.gov/',
+        },
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: phoneE164,
+        email: emailAddress,
+        contactType: 'customer service',
+        areaServed: 'US-CA',
+        availableLanguage: 'English',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Home Health Aide Services',
+        itemListElement: services.map((s) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: s.title,
+            description: s.desc,
+            serviceType: 'Home Health Aide',
+            provider: { '@id': businessId },
+            areaServed: cities.map((city) => `${city}, CA`),
+          },
+        })),
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: 'Donchie',
+      inLanguage: 'en-US',
+      publisher: { '@id': businessId },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/#webpage`,
+      url: `${siteUrl}/`,
+      name: 'Donchie | Home Health Aide (HHA) in Upland, CA & the Inland Empire',
+      description,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      about: { '@id': businessId },
+      primaryImageOfPage: `${siteUrl}/service_area_map.jpg`,
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.about p', '.faq__answer'],
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${siteUrl}/#faq`,
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
 ---
 
-<Layout title="Donchie | Home Health Aide (HHA) — Upland, Rancho Cucamonga & Inland Empire, CA">
+<Layout title="Donchie | Home Health Aide (HHA) in Upland, CA & the Inland Empire" description={description}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Donchie",
-      "description": "Licensed Home Health Aide (HHA) providing bathing assistance, bedbound care, and personal care services in Upland, CA and the Inland Empire.",
-      "telephone": "+16267717471",
-      "email": emailAddress,
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Upland",
-        "addressRegion": "CA",
-        "addressCountry": "US"
-      },
-      "areaServed": [
-        "Upland, CA","Rancho Cucamonga, CA","Ontario, CA","Fontana, CA",
-        "San Bernardino, CA","Rialto, CA","Chino, CA","Chino Hills, CA",
-        "Pomona, CA","Claremont, CA","Covina, CA","Riverside, CA","Corona, CA"
-      ],
-      "serviceType": ["Home Health Aide","HHA","Personal Care Services","Bathing Assistance"],
-      "url": "https://donchie.com"
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero__content">
-      <h1 class="hero__title">Compassionate Care, In the Comfort of Home</h1>
-      <p class="hero__subtitle">Licensed Home Health Aide serving the Inland Empire &amp; surrounding areas</p>
-      <div class="hero__actions">
-        <a class="btn-call" href={phoneHref}>Call or Text: {phoneDisplay}</a>
-        <a class="btn-email" href={emailHref}>Email Us</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- About -->
-  <section class="about" id="about">
-    <div class="container">
-      <h2 class="section-title">About Donchie</h2>
-      <p>
-        Dona and Archie are licensed Home Health Aides dedicated to providing compassionate, dignified
-        personal care for seniors in the comfort of their own home. With a personal commitment to
-        every client's wellbeing, Donchie brings professional care with a family-like touch.
-      </p>
-
-      <div class="credential-badge">
-        <svg class="credential-badge__seal" viewBox="0 0 64 64" aria-hidden="true">
-          <circle cx="32" cy="32" r="29" fill="none" stroke="var(--color-silver)" stroke-width="2" />
-          <circle cx="32" cy="32" r="22" fill="none" stroke="var(--color-white)" stroke-width="1.5" opacity="0.6" />
-          <path
-            d="M32 18 L35.5 27 L45 27.5 L37.5 33.5 L40 43 L32 37.5 L24 43 L26.5 33.5 L19 27.5 L28.5 27 Z"
-            fill="var(--color-white)"
-            opacity="0.9"
-          />
-        </svg>
-        <div class="credential-badge__text">
-          <p class="credential-badge__org">California Department of Public Health</p>
-          <p class="credential-badge__title">Certified Home Health Aide</p>
-          <p class="credential-badge__meta">Certificate #00266808</p>
+  <main>
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Compassionate Care, In the Comfort of Home</h1>
+        <p class="hero__subtitle">Licensed Home Health Aide serving the Inland Empire &amp; surrounding areas</p>
+        <div class="hero__actions">
+          <a class="btn-call" href={phoneHref}>Call or Text: {phoneDisplay}</a>
+          <a class="btn-email" href={emailHref}>Email Us</a>
         </div>
       </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- Services -->
-  <section class="services" id="services">
-    <div class="container">
-      <h2 class="section-title">Services</h2>
-      <div class="services-grid">
-        {services.map((service) => (
-          <div class="service-card">
-            <div class="service-card__icon" aria-hidden="true">{service.icon}</div>
-            <h3 class="service-card__title">{service.title}</h3>
-            <p class="service-card__desc">{service.desc}</p>
+    <!-- About -->
+    <section class="about" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 class="section-title" id="about-title">About Donchie</h2>
+        <p>
+          Dona and Archie are licensed Home Health Aides dedicated to providing compassionate, dignified
+          personal care for seniors in the comfort of their own home. With a personal commitment to
+          every client's wellbeing, Donchie brings professional care with a family-like touch.
+        </p>
+
+        <div class="credential-badge">
+          <svg class="credential-badge__seal" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="29" fill="none" stroke="var(--color-silver)" stroke-width="2" />
+            <circle cx="32" cy="32" r="22" fill="none" stroke="var(--color-white)" stroke-width="1.5" opacity="0.6" />
+            <path
+              d="M32 18 L35.5 27 L45 27.5 L37.5 33.5 L40 43 L32 37.5 L24 43 L26.5 33.5 L19 27.5 L28.5 27 Z"
+              fill="var(--color-white)"
+              opacity="0.9"
+            />
+          </svg>
+          <div class="credential-badge__text">
+            <p class="credential-badge__org">California Department of Public Health</p>
+            <p class="credential-badge__title">Certified Home Health Aide</p>
+            <p class="credential-badge__meta">Certificate #{certificateNumber}</p>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Testimonials -->
-  <section class="testimonials" id="testimonials">
-    <div class="container">
-      <h2 class="section-title">What Families Are Saying</h2>
-      <div class="testimonials-grid">
-        {testimonials.map((t) => (
-          <div class="testimonial-card">
-            <p class="testimonial-card__quote">&ldquo;{t.quote}&rdquo;</p>
-            <p class="testimonial-card__name">{t.name}</p>
-            <p class="testimonial-card__relation">{t.relation}</p>
-          </div>
-        ))}
+    <!-- Services -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <h2 class="section-title" id="services-title">Services</h2>
+        <ul class="services-grid" role="list">
+          {services.map((service) => (
+            <li class="service-card">
+              <div class="service-card__icon" aria-hidden="true">{service.icon}</div>
+              <h3 class="service-card__title">{service.title}</h3>
+              <p class="service-card__desc">{service.desc}</p>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Service Area Map -->
-  <section class="map-section" id="service-area">
-    <div class="container">
-      <h2 class="section-title">Areas We Serve</h2>
-      <img
-        id="map"
-        src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/service_area_map.jpg`}
-        alt="Map of the service area surrounding Upland, CA, including San Bernardino, Rialto, Riverside, Corona, Chino, and Covina"
-        loading="lazy"
-      />
-      <p class="map-section__cities">
-        Upland · Rancho Cucamonga · Ontario · Fontana · Rialto · San Bernardino ·
-        Chino · Chino Hills · Pomona · Claremont · Covina · Riverside · Corona
-      </p>
-    </div>
-  </section>
-
-  <!-- Contact / CTA -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <h2 class="section-title">Ready to Get Started?</h2>
-      <p>Call or text anytime.</p>
-      <div class="contact__actions">
-        <a class="contact__phone" href={phoneHref}>{phoneDisplay}</a>
-        <a class="btn-email" href={emailHref}>Email Us</a>
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <h2 class="section-title" id="testimonials-title">What Families Are Saying</h2>
+        <div class="testimonials-grid">
+          {testimonials.map((t) => (
+            <figure class="testimonial-card">
+              <blockquote class="testimonial-card__quote">&ldquo;{t.quote}&rdquo;</blockquote>
+              <figcaption>
+                <p class="testimonial-card__name">{t.name}</p>
+                <p class="testimonial-card__relation">{t.relation}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- Service Area Map -->
+    <section class="map-section" id="service-area" aria-labelledby="service-area-title">
+      <div class="container">
+        <h2 class="section-title" id="service-area-title">Areas We Serve</h2>
+        <img
+          id="map"
+          src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/service_area_map.jpg`}
+          alt="Map of the Donchie home health aide service area surrounding Upland, CA, including San Bernardino, Rialto, Riverside, Corona, Chino, and Covina"
+          width="619"
+          height="684"
+          loading="lazy"
+          decoding="async"
+        />
+        <p class="map-section__cities">
+          {cities.join(' · ')}
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <h2 class="section-title" id="faq-title">Frequently Asked Questions</h2>
+        <dl class="faq__list">
+          {faqs.map((f) => (
+            <div class="faq__item">
+              <dt class="faq__question">{f.q}</dt>
+              <dd class="faq__answer">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Contact / CTA -->
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 class="section-title" id="contact-title">Ready to Get Started?</h2>
+        <p>Call or text anytime.</p>
+        <div class="contact__actions">
+          <a class="contact__phone" href={phoneHref}>{phoneDisplay}</a>
+          <a class="btn-email" href={emailHref}>Email Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>&copy; {currentYear} Donchie · Licensed Home Health Aide · Upland, CA</p>
+    <address class="footer__nap">
+      <strong>Donchie</strong> · Licensed Home Health Aide · Upland, CA ·
+      <a href={phoneHref}>{phoneDisplay}</a> ·
+      <a href={emailHref}>{emailAddress}</a>
+    </address>
+    <p>&copy; {currentYear} Donchie</p>
   </footer>
 </Layout>

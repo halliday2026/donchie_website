@@ -21,7 +21,8 @@ astro.config.mjs               output: 'static', site set for the donchie.com cu
 public/
   CNAME                        Custom domain file ("donchie.com") — copied verbatim to dist root
   favicon.svg                  Inline water-drop SVG icon (navy)
-  robots.txt                   Allows all crawlers; points to sitemap-index.xml
+  llms.txt                     Plain-text business summary for AI/answer engines (GEO) — keep in sync with page facts
+  robots.txt                   Allows all crawlers (AI crawlers listed explicitly); points to sitemap-index.xml
   service_area_map.jpg         Static map image used in the "Areas We Serve" section
 src/
   layouts/Layout.astro         Base HTML shell: meta tags, Google Fonts, favicon, global.css import
@@ -33,7 +34,9 @@ There is only one page (`index.astro`); all content lives there as a sequence of
 
 ## Page Sections (in order)
 
-1. **Hero** (`.hero`) — full-viewport background image with navy gradient overlay, headline,
+All sections are wrapped in `<main>`; the footer sits outside it.
+
+1. **Hero** (`<header class="hero">`) — full-viewport background image with navy gradient overlay, headline,
    subheadline, and a `tel:` CTA button (`.btn-call`)
 2. **About** (`#about`) — short intro paragraph about Dona Archie / Donchie, plus a
    `.credential-badge` showing her CDPH Home Health Aide certification (see "Credential
@@ -45,14 +48,21 @@ There is only one page (`index.astro`); all content lives there as a sequence of
    real client quotes supplied by the owner (first names + relation only — no last names)
 5. **Service Area Map** (`#service-area`) — static `<img id="map">` pointing at
    `public/service_area_map.jpg` (an interactive Leaflet map was tried first and replaced
-   with this static image)
-6. **Contact / CTA** (`#contact`) — large tappable `tel:` phone link and a licensing note
-7. **Footer** — copyright line with a dynamically computed year (`new Date().getFullYear()`
-   in `index.astro`'s frontmatter, rendered as `currentYear` — never hardcode the year here)
+   with this static image). Has explicit `width`/`height` (619×684) to prevent layout shift;
+   the city list below it is rendered from the `cities` array
+6. **FAQ** (`#faq`) — `faqs` array renders a visible `<dl>` of Q&A **and** the `FAQPage`
+   JSON-LD. Answers only restate facts already on the page (services, area, credential,
+   contact) — never add unverified claims (pricing, hours, insurance) without the owner
+7. **Contact / CTA** (`#contact`) — large tappable `tel:` phone link and a licensing note
+8. **Footer** — `<address>` NAP line (name · Upland, CA · phone · email, for local SEO
+   consistency) plus a copyright line with a dynamically computed year
+   (`new Date().getFullYear()` in `index.astro`'s frontmatter, rendered as `currentYear` —
+   never hardcode the year here)
 
-To add/edit services or testimonials, edit the `services` / `testimonials` arrays at the top
-of [index.astro](src/pages/index.astro) — the markup maps over them, so the grid updates
-automatically.
+To add/edit services, testimonials, cities, or FAQs, edit the `services` / `testimonials` /
+`cities` / `faqs` arrays at the top of [index.astro](src/pages/index.astro) — the markup and
+the JSON-LD both map over them, so everything updates automatically. Testimonials render as
+`<figure><blockquote><figcaption>`; services as a `<ul>` of `<li class="service-card">`.
 
 ## Credential Badge
 
@@ -63,7 +73,8 @@ deliberate privacy/trust tradeoff made with the owner:
 
 - **Shows**: issuing agency ("California Department of Public Health"), credential title
   ("Certified Home Health Aide"), and the certificate number/validity
-  ("Certificate #00266808 · Active through October 2026") — the cert number is shown
+  ("Certificate #00266808" — the expiration date was deliberately removed; the number lives in
+  the `certificateNumber` constant, also used by the JSON-LD and FAQ) — the cert number is shown
   *intentionally* as public proof, per the owner's explicit choice
 - **Deliberately omits**: the certificate holder's legal name (it differs from the public
   business persona "Dona Archie" and publishing both could cause confusion/privacy issues)
@@ -81,7 +92,7 @@ CSS custom properties defined in `:root`:
 - `--gradient-navy`: the deep-navy → royal-blue gradient used on alternating section backgrounds
 
 Reusable component classes: `.container`, `.section-title`, `.btn-call`, `.service-card`,
-`.testimonial-card`. Card components share the same visual recipe (navy gradient background,
+`.testimonial-card`, `.faq__item`. Card components share the same visual recipe (navy gradient background,
 silver border, inset border accent via `::before`, rounded corners).
 
 Note: an earlier iteration included pure-CSS "water droplet" decorations (`.droplet`); these
@@ -116,16 +127,30 @@ exists" error), then publishes via `actions/deploy-pages` on every push to `main
 
 ## SEO
 
-- **JSON-LD** — `index.astro` injects a `LocalBusiness` schema block via `<Fragment slot="head">`.
-  Target keywords: "HHA", "Home Health Aide", plus the 13 service-area cities. Edit the
-  `areaServed` and `serviceType` arrays in the head slot if the service area or offerings change.
-- **Title / meta description** — set on the `<Layout>` call in `index.astro`; default
-  description lives in `Layout.astro`. Both include "HHA" and key city names.
+- **JSON-LD** — `index.astro` builds a `jsonLd` object in the frontmatter and injects it via
+  `<Fragment slot="head">` as a single `@graph`: `LocalBusiness`+`MedicalBusiness` (with geo,
+  `areaServed` City list, `hasCredential` for the CDPH cert, `hasOfferCatalog` of services,
+  `contactPoint`), `WebSite`, `WebPage` (with `speakable`), and `FAQPage`. Most values derive
+  from the `services` / `cities` / `faqs` / `certificateNumber` constants. Target keywords:
+  "HHA", "Home Health Aide", plus the 13 service-area cities. **No `Review`/`aggregateRating`
+  markup** on purpose — the testimonials are self-hosted and unrated (Google ignores
+  self-serving reviews and fabricated ratings risk a manual action).
+- **Title / meta description** — set on the `<Layout>` call in `index.astro` (`description`
+  constant); default description lives in `Layout.astro`. Both include "HHA" and key city names.
+- **Head meta** (`Layout.astro`) — canonical URL (from `Astro.site`), robots directives,
+  `theme-color`, geo meta tags (Upland coordinates), Open Graph + Twitter card tags. The social
+  share image defaults to `service_area_map.jpg` (override via the `image` / `imageAlt` props);
+  a dedicated 1200×630 branded OG image would be an improvement.
 - **City list** — `.map-section__cities` paragraph below the map image lists all service cities
   as crawlable text (the map image itself is not readable by search engines).
-- **Sitemap** — generated at build time by `@astrojs/sitemap`; submit
-  `https://donchie.com/sitemap-index.xml` to Google Search Console and Bing Webmaster Tools.
-- **robots.txt** — `public/robots.txt` allows all crawlers and points to the sitemap.
+- **Sitemap** — generated at build time by `@astrojs/sitemap` with `lastmod` set to build time;
+  submit `https://donchie.com/sitemap-index.xml` to Google Search Console and Bing Webmaster Tools.
+- **robots.txt** — `public/robots.txt` allows all crawlers, explicitly allows AI/answer-engine
+  crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.), and points to the sitemap.
+- **llms.txt** — `public/llms.txt` is a Markdown fact sheet for LLMs; update it whenever
+  services, cities, credential, or contact details change.
+- **Off-site (not in repo)** — a Google Business Profile with the identical name/phone/city
+  (NAP) is the single biggest local-SEO lever; Bing Places and Apple Business Connect next.
 
 ## Commands
 
@@ -136,7 +161,9 @@ exists" error), then publishes via `actions/deploy-pages` on every push to `main
 ## Notes
 
 - All copy (hero headline, about paragraph, service descriptions, testimonials, contact text,
-  footer) was supplied directly by the business owner and is final.
+  footer) was supplied directly by the business owner and is final. Exception: the FAQ
+  questions/answers were written for SEO/AEO from existing on-page facts and are pending
+  owner review.
 - The hero background image is hot-linked from Unsplash; the gradient overlay
   (`linear-gradient` layered with the `background-image`) keeps text readable and also acts as
   a visual fallback if the remote image fails to load.
